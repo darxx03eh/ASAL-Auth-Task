@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+from datetime import timedelta
 from pathlib import Path
 import environ
 from django.conf import settings
@@ -49,6 +49,10 @@ INSTALLED_APPS = [
     'django_extensions',
     'api',
     'rest_framework',
+    'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
+    'drf_spectacular',
+    'djoser',
 ]
 
 MIDDLEWARE = [
@@ -139,3 +143,39 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Custom User
 AUTH_USER_MODEL = 'api.User'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'auth task',
+    'DESCRIPTION': 'a simple auth task from asal',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
+}
+
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': env('JWT_SIGNING_KEY'),
+    'AUDIENCE': env('JWT_AUDIENCE'),
+    'ISSUER': env('JWT_ISSUER'),
+}
+
+DJOSER = {
+    "USER_ID_FIELD": "id",
+    "USER_CREATE_PASSWORD_RETYPE": True,
+    "SERIALIZERS": {
+        "user_create": "api.serializers.user_serializers.UserCreateSerializer",
+        "user": "api.serializers.user_serializers.UserSerializer",
+        "current_user": "api.serializers.user_serializers.UserSerializer",
+    },
+}
