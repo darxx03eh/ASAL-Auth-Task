@@ -2,13 +2,12 @@
 
 ## Project Overview
 
-ASAL Auth Task is a Django-based project focused on implementing authentication features using Django REST Framework. This project provides user registration, login, and token-based authentication functionalities.
+ASAL Auth Task is a Django-based project focused on implementing authentication features using Django REST Framework. This project provides user registration, login, and logout
 
 ## Features
 
-* User registration and login
+* User registration and login and logout
 * Token-based authentication (JWT or DRF Token)
-* Password reset and email confirmation
 * API endpoints for user management
 * Clean project structure suitable for extension
 
@@ -80,3 +79,4 @@ ASAL-Auth-Task/
 ```
 
 ##
+
