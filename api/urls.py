@@ -3,7 +3,8 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-from api.views.user_views import SignUpAPIView, LogOutAPIView, UserAPIView, UserRetrieveAPIView
+from api.views.user_views import SignUpAPIView, LogOutAPIView, UserAPIView, UserRetrieveAPIView, SessionLogInAPIView, \
+    SessionLogOutAPIView
 
 urlpatterns = [
     path('users/me', UserRetrieveAPIView.as_view(), name='retrieve-user'),
@@ -12,4 +13,6 @@ urlpatterns = [
     path('users/login', TokenObtainPairView.as_view(), name='login'),
     path('users/logout', LogOutAPIView.as_view(), name='logout'),
     path('users/refresh', TokenRefreshView.as_view(), name='refresh'),
+    path('', SessionLogInAPIView.as_view(), name='session-log-in'),
+    path('logout', SessionLogOutAPIView.as_view(), name='session-log-out'),
 ]
