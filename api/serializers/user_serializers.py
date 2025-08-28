@@ -17,9 +17,7 @@ class UserCreateSerializer(BaseUserCreateSerializer):
         raise serializers.ValidationError('Phone number must be entered in the format: +97012345678')
     def to_representation(self, instance):
         data = super().to_representation(instance)
-        return {
-            'data': data,
-        }
+        return data
 
 class UserRetrieve(BaseUserSerializer):
     class Meta:
