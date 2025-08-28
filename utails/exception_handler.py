@@ -1,34 +1,31 @@
-from http import HTTPStatus
-
 from rest_framework.views import exception_handler
-def custom_exception_handler(exc, context):
-    handlers={
-        'ValidationError': _handle_generic_error,
-        'Http404': _handle_generic_error,
-        'PermissionDenied': _handle_generic_error,
-        'NotAuthenticated': _handle_authentication_error,
-        'AuthenticationFailed': _handle_authentication_failed,
-        'InvalidToken': _handle_authentication_failed,
-    }
+from http import HTTPStatus
+from typing import Any
+
+from rest_framework.views import Response
+
+def api_exception_handler(exc: Exception, context: dict[str, Any]) -> Response:
+    """Custom API exception handler"""
+    # Call REST framework's default exception handler first
+    # to get the standard error response
     response = exception_handler(exc, context)
-    exception_class = exc.__class__.__name__
-    if exception_class in handlers:
-        return handlers[exception_class](exc, context, response)
-    return response
-def _handle_authentication_failed(exc, context, response):
-    print('test')
-    response.status_code = HTTPStatus.UNAUTHORIZED
-    response.data = {
-        'message': 'Authentication failed or Invalid credentials.',
-        'status_code': HTTPStatus.UNAUTHORIZED
-    }
-    return response
-def _handle_authentication_error(exc, context, response):
-    response.status_code = HTTPStatus.UNAUTHORIZED
-    response.data = {
-        'error': 'please login first',
-        'status_code': HTTPStatus.UNAUTHORIZED
-    }
-    return response
-def _handle_generic_error(exc, context, response):
+
+    if response is not None:
+        http_code_to_message = {
+            v.value: v.description for v in HTTPStatus
+        }
+        error_payload = {
+            'error': {
+                'status_code': 0,
+                'message': '',
+                'details': []
+            }
+        }
+        error = error_payload['error']
+        status_code = response.status_code
+
+        error['status_code'] = status_code
+        error['message'] = http_code_to_message[status_code]
+        error['details'] = response.data
+        response.data = error_payload
     return response
