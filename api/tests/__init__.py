@@ -1,0 +1,1 @@
+from .user_tests import LoginAPITestCase, SignUpAPITestCase, LogOutAPITestCase

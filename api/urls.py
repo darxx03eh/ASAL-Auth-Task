@@ -9,7 +9,7 @@ urlpatterns = [
     path('users/me', UserRetrieveAPIView.as_view(), name='retrieve-user'),
     path('users', UserAPIView.as_view(), name='users'),
     path('users/signup', SignUpAPIView.as_view(), name='signup'),
-    path('users/login', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('users/login', TokenObtainPairView.as_view(), name='login'),
     path('users/logout', LogOutAPIView.as_view(), name='logout'),
-    path('users/refresh', TokenRefreshView.as_view(), name='token_refresh'),
+    path('users/refresh', TokenRefreshView.as_view(), name='refresh'),
 ]
