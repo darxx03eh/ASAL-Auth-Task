@@ -78,5 +78,24 @@ ASAL-Auth-Task/
 └── .gitignore
 ```
 
+## example for error response
+```
+{
+  "error": {
+    "status_code":400,
+    "message":"Bad request syntax or unsupported method",
+    "details":{
+      "username":[
+        "Username must be at least 10 character long."
+      ],
+      "email":[
+        "Enter a valid email address."
+      ]
+    }
+  }
+}
+```
+
 ##
+
 
